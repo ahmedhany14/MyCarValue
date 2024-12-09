@@ -9,6 +9,7 @@ import {
     Column,
     PrimaryGeneratedColumn
 } from "typeorm";
+import { Exclude } from "class-transformer";
 
 @Entity()
 export class User {
@@ -20,6 +21,7 @@ export class User {
     email: string
 
     @Column()
+    @Exclude() // This decorator is used to exclude the password from the response
     password: string
 
 
