@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
+import { UserService } from './service/user.service';
+import { AuthService } from './service/auth.service';
 import { UserSqliteRepository } from './repositories/user.sqlite.repository';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -12,6 +13,7 @@ import { User } from './entitie/user.entitie';
   controllers: [UserController],
   providers: [
     UserService,
+    AuthService,
     {
       provide: 'userSqliteRepository',
       useClass: UserSqliteRepository

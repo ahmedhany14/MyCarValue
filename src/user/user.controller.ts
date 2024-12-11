@@ -10,7 +10,9 @@ import {
     ClassSerializerInterceptor,
     UseInterceptors
 } from '@nestjs/common';
-import { UserService } from './user.service';
+
+import { UserService } from './service/user.service';
+import { AuthService } from './service/auth.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { updateUserDto } from './dto/update-user.dto';
@@ -23,14 +25,24 @@ import { Serialize } from '../interceptors/serialize.interceptor';
 export class UserController {
 
     constructor(
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly authService: AuthService
     ) { }
 
     @Post('signup')
-    createUser(@Body() body: CreateUserDto) {
-        this.userService.createUser(body.email, body.password);
-        return 'User created';
+    signup(@Body() body: CreateUserDto) {
+        const { email, password } = body;
+        const user = this.authService.signUp(email, password);
+        return user;
     }
+
+    @Post('signin')
+    signin(@Body() body: CreateUserDto) {
+        const { email, password } = body;
+        const user = this.authService.signIn(email, password);
+        return user;
+    }
+
 
     //@UseInterceptors(ClassSerializerInterceptor) // this is a nest recommended way to serialize the response
     // custom interceptor
