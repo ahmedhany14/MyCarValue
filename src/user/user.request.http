@@ -4,7 +4,7 @@ POST http://localhost:3000/auth/signup
 content-Type: application/json
 
 {
-    "email": "hany2@gmail.com",
+    "email": "test@gmail.com",
     "password": "123456789"
 }
 
@@ -13,7 +13,7 @@ POST http://localhost:3000/auth/signin
 content-Type: application/json
 
 {
-    "email": "hany3@gmail.com",
+    "email": "test@gmail.com",
     "password": "123456789"
 }
 
@@ -41,3 +41,12 @@ Content-Type: application/json
 ### DELETE USER BY ID
 
 DELETE http://localhost:3000/auth/26
+
+
+### GET Current User
+
+GET http://localhost:3000/auth/me
+
+### LOGOUT USER
+
+GET http://localhost:3000/auth/signout

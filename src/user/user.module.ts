@@ -6,6 +6,7 @@ import { UserSqliteRepository } from './repositories/user.sqlite.repository';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entitie/user.entitie';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User])
@@ -14,6 +15,7 @@ import { User } from './entitie/user.entitie';
   providers: [
     UserService,
     AuthService,
+    CurrentUserInterceptor,
     {
       provide: 'userSqliteRepository',
       useClass: UserSqliteRepository

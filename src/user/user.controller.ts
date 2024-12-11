@@ -8,7 +8,10 @@ import {
     Param,
     Query,
     ClassSerializerInterceptor,
-    UseInterceptors
+    UseInterceptors,
+    Session,
+    BadRequestException,
+    UseGuards
 } from '@nestjs/common';
 
 import { UserService } from './service/user.service';
@@ -19,9 +22,16 @@ import { updateUserDto } from './dto/update-user.dto';
 import { responseUserDTO } from './dto/response.user.dto';
 
 import { SerializeInterceptor } from '../interceptors/serialize.interceptor';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { Serialize } from '../interceptors/serialize.interceptor';
+import { CurrentUser } from './decorators/curren-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
+import { User } from './entitie/user.entitie';
+
+
 @Controller('auth')
 @Serialize(responseUserDTO) // apply the custom decorator to the whole controller
+@UseInterceptors(CurrentUserInterceptor)
 export class UserController {
 
     constructor(
@@ -30,19 +40,34 @@ export class UserController {
     ) { }
 
     @Post('signup')
-    signup(@Body() body: CreateUserDto) {
+    async signup(@Body() body: CreateUserDto, @Session() session: any) {
         const { email, password } = body;
-        const user = this.authService.signUp(email, password);
+        const user = await this.authService.signUp(email, password);
+
+        session.userId = user.id;
         return user;
     }
 
     @Post('signin')
-    signin(@Body() body: CreateUserDto) {
+    async signin(@Body() body: CreateUserDto, @Session() session: any) {
         const { email, password } = body;
-        const user = this.authService.signIn(email, password);
+        const user = await this.authService.signIn(email, password);
+
+        session.userId = user.id;
         return user;
     }
 
+    @Get('signout')
+    async signout(@Session() session: any) {
+        session.userId = null;
+        return { message: 'You are signed out' };
+    }
+
+    @Get('/me')
+    @UseGuards(AuthGuard)
+    async me(@CurrentUser() user: User) {
+        return user;
+    }
 
     //@UseInterceptors(ClassSerializerInterceptor) // this is a nest recommended way to serialize the response
     // custom interceptor
