@@ -19,7 +19,7 @@ content-Type: application/json
 
 ### GET USER BY ID
 
-GET http://localhost:3000/auth/2
+GET http://localhost:3000/auth/36
 
 
 ### GET ALL USERS WITH EMAIL 
