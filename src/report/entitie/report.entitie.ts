@@ -24,7 +24,6 @@ export class Report {
     @Column()
     lat: number
 
-    @Column()
     @ManyToOne(() => User, user => user.reports)
     user: User
 }

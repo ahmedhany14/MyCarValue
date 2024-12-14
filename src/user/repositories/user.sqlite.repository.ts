@@ -24,9 +24,10 @@ export class UserSqliteRepository {
         const user = await this.userRepository.findOne({
             where: { id }
         });
+        /*
         if (!user) {
             throw new NotFoundException('user Not Founded')
-        }
+        }*/
         return user;
     }
 

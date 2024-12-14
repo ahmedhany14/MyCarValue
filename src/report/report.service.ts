@@ -1,5 +1,7 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { ReportSqliteRepository } from './repositories/report.sqlite.repository';
+import { CreateReportDto } from './dto/create.report.dto';
+import { User } from 'src/user/entitie/user.entitie';
 @Injectable()
 export class ReportService {
     constructor(
@@ -7,7 +9,7 @@ export class ReportService {
         private sqliteRepository: ReportSqliteRepository
     ) { }
 
-    async createReport(report: any) {
-        return await this.sqliteRepository.createReport(report);
+    async createReport(report: CreateReportDto, user: User) {
+        return await this.sqliteRepository.createReport(report, user);
     }
 }
