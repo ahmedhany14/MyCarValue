@@ -7,10 +7,12 @@ import {
     BeforeUpdate,
     Entity,
     Column,
-    PrimaryGeneratedColumn
+    PrimaryGeneratedColumn,
+    OneToMany,
+    ManyToOne
 } from "typeorm";
 import { Exclude } from "class-transformer";
-
+import { Report } from "./../../report/entitie/report.entitie";
 @Entity()
 export class User {
 
@@ -23,6 +25,9 @@ export class User {
     @Column()
     @Exclude() // This decorator is used to exclude the password from the response
     password: string
+
+    @OneToMany(() => Report, report => report.user)
+    reports: Report[]
 
 
     @AfterInsert() // This decorator is used to execute a function after the insertion of a new user
@@ -42,4 +47,5 @@ export class User {
     logAfterRemove() {
         console.log(`user with id ${this.id} removed`)
     }
+
 }
