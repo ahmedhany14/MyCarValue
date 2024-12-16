@@ -31,7 +31,7 @@ import { User } from './entitie/user.entitie';
 
 @Controller('auth')
 @Serialize(responseUserDTO) // apply the custom decorator to the whole controller
-@UseInterceptors(CurrentUserInterceptor)
+//@UseInterceptors(CurrentUserInterceptor)
 export class UserController {
 
     constructor(

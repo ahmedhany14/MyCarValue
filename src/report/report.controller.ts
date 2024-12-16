@@ -16,7 +16,6 @@ export class ReportController {
     @Post()
     @UseGuards(AuthGuard)
     async createReport(@Body() report: CreateReportDto, @CurrentUser() user: User) {
-        console.log(user);
         const newReport = await this.reportService.createReport(report, user);
         return {
             message: 'Report created successfully',

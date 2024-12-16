@@ -14,7 +14,6 @@ export class ReportSqliteRepository {
 
     async createReport(report: CreateReportDto, user: User) {
         const newReport = this.reportRepository.create(report);
-        console.log(user);
         newReport.user = user;
         return await this.reportRepository.save(newReport);
     }

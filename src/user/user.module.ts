@@ -7,6 +7,10 @@ import { UserSqliteRepository } from './repositories/user.sqlite.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entitie/user.entitie';
 import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+
+import { CurrentUserMiddleware } from './middleware/current-user.middleware';
+import { MiddlewareConsumer } from '@nestjs/common';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([User])
@@ -22,4 +26,10 @@ import { CurrentUserInterceptor } from './interceptors/current-user.interceptor'
     }
   ]
 })
-export class UserModule { }
+export class UserModule { 
+
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+  }
+
+}
