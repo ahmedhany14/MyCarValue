@@ -5,6 +5,8 @@ import { AuthGuard } from '../guards/auth.guard';
 import { ReportService } from './report.service';
 import { CurrentUser } from 'src/user/decorators/curren-user.decorator';
 import { User } from 'src/user/entitie/user.entitie';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { ReportDto } from './dto/report.dto';
 
 @Controller('report')
 export class ReportController {
@@ -15,11 +17,9 @@ export class ReportController {
 
     @Post()
     @UseGuards(AuthGuard)
+    @Serialize(ReportDto)
     async createReport(@Body() report: CreateReportDto, @CurrentUser() user: User) {
         const newReport = await this.reportService.createReport(report, user);
-        return {
-            message: 'Report created successfully',
-            report: newReport
-        };
+        return newReport;
     }
 }
