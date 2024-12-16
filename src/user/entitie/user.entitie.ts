@@ -26,6 +26,9 @@ export class User {
     @Exclude() // This decorator is used to exclude the password from the response
     password: string
 
+    @Column({ default: false }) // This is used to set a default value for the isAdmin field
+    isAdmin: boolean
+
     @OneToMany(() => Report, report => report.user)
     reports: Report[]
 

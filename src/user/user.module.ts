@@ -19,7 +19,6 @@ import { MiddlewareConsumer } from '@nestjs/common';
   providers: [
     UserService,
     AuthService,
-    CurrentUserInterceptor,
     {
       provide: 'userSqliteRepository',
       useClass: UserSqliteRepository

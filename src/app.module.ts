@@ -9,8 +9,10 @@ import { User } from './user/entitie/user.entitie';
 import { Report } from './report/entitie/report.entitie';
 
 import { join } from 'path';
-@Module({
+import {MiddlewareConsumer} from '@nestjs/common'
+const cookieSession = require('cookie-session');
 
+@Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -32,8 +34,20 @@ import { join } from 'path';
       entities: [User, Report],
       synchronize: true,
     }),*/
-    ReportModule, UserModule],
+    ReportModule,
+    UserModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(
+        cookieSession({
+          keys: ['asdf'],
+        }),
+      )
+      .forRoutes('*');
+  }
+}
