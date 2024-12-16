@@ -12,4 +12,8 @@ export class ReportService {
     async createReport(report: CreateReportDto, user: User) {
         return await this.sqliteRepository.createReport(report, user);
     }
+
+    async approveReport(id: number, approved: boolean) {
+        return await this.sqliteRepository.updateReport(id, approved);
+    }
 }
